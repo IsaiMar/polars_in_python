@@ -6,11 +6,12 @@ dat_try = pl.read_csv("../data/API_Download_DS2_en_csv_v2_5657328.csv")
 dat_try
 # %%
 # now we get the data read in.  However, it isn't handling the column types correctly
-dat_try = pl.read_csv("../data/API_Download_DS2_en_csv_v2_5657328.csv", skip_rows=4)
+dat_try = pl.read_csv("../data/API_Download_DS2_en_csv_v2_5657328.csv", skip_rows=4, truncate_ragged_lines=True)
+
 dat_try
 # %%
 # Notice that the world health leaves missing as blanks in the csv. We need to explain that blanks aren't strings but missing values.
-dat = pl.read_csv("../data/API_Download_DS2_en_csv_v2_5657328.csv", skip_rows=4, null_values = "")
+dat = pl.read_csv("../data/API_Download_DS2_en_csv_v2_5657328.csv", skip_rows=4, null_values = "", truncate_ragged_lines=True)
 dat
 # %%
 # We don't like the World Banks wide format.  Let's clean it upt to long format.
