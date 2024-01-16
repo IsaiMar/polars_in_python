@@ -34,14 +34,14 @@
             /* Two-column layout */
       .left-column {
         color: #000;
-        width: 50%;
+        width: 49%;
         float: left;
       }
       .left-column h2:last-of-type, .left-column h3:last-child {
           color: #000;
         }
       .right-column {
-        width: 50%;
+        width: 49%;
         float: right;
         padding-top: 2em;
       }
@@ -214,10 +214,12 @@ The following table from the [openbridge blog](https://blog.openbridge.com/how-t
 class: font20
 # Introduction to Data Visualization
 
-Our eyes are drawn to [colors and patterns](https://www.tableau.com/learn/whitepapers/tableau-visual-guidebook). We can quickly identify red from blue, and squares from circles. Our culture is visual, including everything from art and advertisements to TV and movies. Data visualization is another form of visual art that grabs our interest and keeps our eyes on the message.
+__The world is full of [visual communication tools](https://datavizcatalogue.com/)__
 
-[Tableau Reference](https://www.tableau.com/learn/articles/data-visualization)
 
+> Our eyes are drawn to [colors and patterns](https://www.tableau.com/learn/whitepapers/tableau-visual-guidebook). We can quickly identify red from blue, and squares from circles. Our culture is visual, including everything from art and advertisements to TV and movies. Data visualization is another form of visual art that grabs our interest and keeps our eyes on the message.
+
+> [Tableau Reference](https://www.tableau.com/learn/articles/data-visualization)
 
 .left-column[
   </br>
@@ -239,6 +241,47 @@ Our eyes are drawn to [colors and patterns](https://www.tableau.com/learn/whitep
 
 ---
 class: font20
+# Introduction to Plotly and Lets-Plot
+
+
+.left-column[
+  </br>
+### Plotly:
+
+> Plotly Express is a built-in part of the plotly library, which makes interactive, publication-quality graphs.
+
+```bash
+pip3 install plotly #mac
+pip install plotly #windows
+```
+
+
+```python
+import plotly.express as px
+```
+
+]
+
+.right-column[
+### Lets-Plot:
+
+> Lets-Plot is a multiplatform plotting library based on the Grammar of Graphics. We provide ggplot2-like plotting API for Python
+
+```bash
+pip3 install lets-plot #mac
+pip install lets-plot #windows
+```
+
+```python
+from lets_plot import *
+LetsPlot.setup_html()
+```
+
+]
+
+
+---
+class: font20
 # Introduction to __Plotly__ for Data Visualization
 
 The Plotly Python package leverages the plotly.js JavaScript library to enables Python users to create beautiful interactive web-based visualizations. Plotly.js is built on top of d3.js and stack.gl, Plotly.js is a high-level, declarative charting library. plotly.js ships with over 40 chart types, including 3D charts, statistical graphs, and SVG maps.
@@ -250,7 +293,7 @@ The Plotly Python package leverages the plotly.js JavaScript library to enables 
 class: font30
 # Plotly programming
 
-Now let's practice using Plotly with our installation of Python
+Now let's practice using [Plotly](https://plotly.com/python/plotly-express/) with our installation of Python
 
 1. Plotly practice (03_begin_plotly.py)
 2. Data visualization with our munged data (03_explore.py)
@@ -268,6 +311,35 @@ df = px.data.gapminder().query("continent == 'Oceania'")
 fig = px.line(df, x='year', y='lifeExp', color='country', markers=True)
 fig.show()
 ```
+
+---
+class: font30
+# Lets-Plot programming
+
+Now let's practice using [Lets-Plot](https://lets-plot.org/) with our installation of Python
+
+2. Data visualization with our munged data (03_explore.py)
+
+```python
+import numpy as np
+from lets_plot import *
+LetsPlot.setup_html()
+
+np.random.seed(12)
+data = dict(
+    cond=np.repeat(['A', 'B'], 200),
+    rating=np.concatenate((np.random.normal(0, 1, 200), np.random.normal(1, 1.5, 200)))
+)
+
+ggplot(data, aes(x='rating', fill='cond')) + \
+  ggsize(700, 300) + \
+  geom_density(color='dark_green', alpha=.7) + \
+  scale_fill_brewer(type='seq') + \
+  theme(panel_grid_major_x='blank')
+```
+
+
+
 
 ---
 class: font40
