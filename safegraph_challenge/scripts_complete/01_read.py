@@ -11,6 +11,8 @@ places = pl.read_parquet("../data/places.parquet")
 patterns = pl.from_arrow(pq.read_table("../data/patterns.parquet"))
 
 
+#%%
+places.head()
 # %%
 # with these formats we can use `explode()` to get list cells data and `unnest()` to get struct cells data.
 patterns.select("placekey", "related_same_day_brand").explode("related_same_day_brand").unnest("related_same_day_brand")
@@ -23,6 +25,8 @@ patterns.select("placekey", "related_same_day_brand").explode("related_same_day_
 dat_csv = pl.from_arrow(
         csv.read_csv("../data/chipotle_core_poi_and_patterns.csv"))\
     .filter(pl.col("date_range_start").is_not_null())
+
+
 dcsv = pl.from_arrow(
         ds.dataset(
             "../data/chipotle_core_poi_and_patterns.csv",
@@ -52,5 +56,6 @@ dcsv_parsed.write_parquet("../data/chipotle_core_poi_and_patterns.parquet")
 # Now we can explore the relationships using unnest
 dcsv_parsed.select("placekey", "related_same_day_brand").unnest("related_same_day_brand").melt(id_vars="placekey").drop_nulls()
 dcsv_parsed.select("placekey", "visitor_home_cbgs").unnest("visitor_home_cbgs").melt(id_vars="placekey").drop_nulls()
+
 
 # %%

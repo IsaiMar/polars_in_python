@@ -11,14 +11,14 @@ dcsv_parsed = pl.read_parquet("../data/chipotle_core_poi_and_patterns.parquet")
 # %%
 # explore the brands
 day_brand = dcsv_parsed\
-    .select("placekey", "related_same_day_brand")\
-    .unnest("related_same_day_brand")\
+    .select("placekey", "related_same_month_brand")\
+    .unnest("related_same_month_brand")\
     .melt(id_vars="placekey")\
     .drop_nulls()
 
 month_brand = dcsv_parsed\
     .select("placekey", "related_same_month_brand")\
-    .unnest("related_same_day_brand")\
+    .unnest("related_same_month_brand")\
     .melt(id_vars="placekey")\
     .drop_nulls()
 
@@ -43,5 +43,11 @@ dcsv_parsed\
 # `explode()`, `with_columns()`, `.cum_counts()`, `.over()`, `pl.duration()`, `.dt.weekday()`, `.replace()`, `.filter()`
 dcsv_parsed\
     .select("placekey", "date_range_start", "visits_by_day")\
+    .explode("visits_by_day")\
+    .with_columns(
+        pl.col("visits_by_day").cum_count().over(["placekey","date_range_start"]) -1
+    )
  # let's create the code.  First, try writing out the structure in English...
+
+
 # %%
